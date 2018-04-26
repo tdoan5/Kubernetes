@@ -7,9 +7,6 @@ pip3 install --upgrade flask
 
 # add -N so that wget do not duplicate copied files when reset 
 # copy necessary files
-sudo wget -N --directory-prefix=$HOME/templates/ \
-https://raw.githubusercontent.com/tdoan5/Kubernetes/master/templates/index.html
-
 sudo wget -N --directory-prefix=$HOME/ \
 https://raw.githubusercontent.com/tdoan5/Kubernetes/master/todolist.db
 
