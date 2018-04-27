@@ -10,4 +10,4 @@ COPY todolist.py .
 
 COPY templates/index.html templates/
 
-CMD python python todolist.py
+CMD python todolist.py
