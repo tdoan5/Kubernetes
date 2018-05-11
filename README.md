@@ -4,7 +4,7 @@
 
 http://storm.cis.fordham.edu/ji/cisc5550/homework.html
 
-#### Project
+#### Project to deploy web app on Kubernetes (web service uses DbaaS MongoDB mLab for data persistence)
 
 1. As Kubernetes YAML file does not allow to pull a private DockerHub hosted image, we will create a `setupkey.sh` script to pull the DockerHub image through `DOCKER_REGISTRY_SERVER`.
 
