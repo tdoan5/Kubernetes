@@ -14,4 +14,8 @@ Run `setupkey.sh`
 
 2. Two static external IPs are reserved for this project. You can see those IPs in the `todo-deployment.yaml` and `todo-service.yaml` files. 
 
+To reserve external IP address:
+
+https://console.cloud.google.com/networking/addresses/
+
 3. Deploy web API and web app using `test.sh` script. 
