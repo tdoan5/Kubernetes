@@ -1,41 +1,39 @@
 # RESTful API
-from flask import Flask, render_template, redirect, g, request, url_for, jsonify, Response
-import sqlite3
-import urllib
-import json
-
-DATABASE = 'todolist.db'
+from flask import Flask, jsonify, Response, request
+import json, urllib
+import pymongo
 
 app = Flask(__name__)
-app.config.from_object(__name__)
+
+MONGO_URI = "mongodb://admin:Cisc5550cc@ds113200.mlab.com:13200/todolist"
+client = pymongo.MongoClient(MONGO_URI, connectTimeoutMs=30000)
+db = client.get_default_database()
+# db = client.get_database["todolist"]
+todolist = db.todolist
 
 
-@app.route("/api/items")  # default method is GET
+@app.route('/api/items', methods = ['GET'])  # default method is GET
 def get_items():
-    db = get_db()
-    cur = db.execute('SELECT what_to_do, due_date, status FROM entries')
-    entries = cur.fetchall()
-    tdlist = [dict(what_to_do=row[0], due_date=row[1], status=row[2])
-              for row in entries]
-    response = Response(json.dumps(tdlist),  mimetype='application/json')
-    return response
+    items = todolist
+    output = []
+    for item in items.find():
+        output.append({'what_to_do' : item['what_to_do'], 'due_date' : item['due_date'], 'status' : item['status']})
 
+    return Response(json.dumps(output),  mimetype='application/json')
+    
 
 @app.route("/api/items", methods=['POST'])
 def add_item():
-    db = get_db()
-    db.execute('insert into entries (what_to_do, due_date) values (?, ?)',
-               [request.json['what_to_do'], request.json['due_date']])
-    db.commit()
+    items = todolist
+    items.insert({'what_to_do' : request.json['what_to_do'], 'due_date' : request.json['due_date'], 'status': None})
     return jsonify({"result": True})
 
 
 @app.route("/api/items/<item>", methods=['DELETE'])
 def delete_item(item):
     item = urllib.parse.unquote(item)
-    db = get_db()
-    db.execute("DELETE FROM entries WHERE what_to_do='"+item+"'")
-    db.commit()
+    items = todolist
+    items.delete_one({'what_to_do' : item})
     return jsonify({"result": True})
 
 
@@ -43,27 +41,9 @@ def delete_item(item):
 def update_item(item):
     # we do not need the body so just ignore it
     item = urllib.parse.unquote(item)
-    db = get_db()
-    db.execute("UPDATE entries SET status='done' WHERE what_to_do='"+item+"'")
-    db.commit()
+    items = todolist
+    items.update_one({'what_to_do' : item}, {'$set': {'status': 'done'}})
     return jsonify({"result": True})
 
-
-def get_db():
-    """Opens a new database connection if there is none yet for the
-    current application context.
-    """
-    if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = sqlite3.connect(app.config['DATABASE'])
-    return g.sqlite_db
-
-
-@app.teardown_appcontext
-def close_db(error):
-    """Closes the database again at the end of the request."""
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
-
-
 if __name__ == "__main__":
-    app.run("0.0.0.0", port=6000)
+    app.run("0.0.0.0", port=5001)

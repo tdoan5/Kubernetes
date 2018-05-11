@@ -2,20 +2,22 @@
 from flask import Flask, render_template, redirect, g, request, url_for, jsonify, json
 import urllib
 import requests  # similar purpose to urllib.request, just more convenience
+import os
 
 app = Flask(__name__)
+TODO_API_URL = "http://"+os.environ['TODO_API_IP']+":5001"
 
 
 @app.route("/")
 def show_list():
-    resp = requests.get("http://localhost:6000/api/items")
+    resp = requests.get(TODO_API_URL+"/api/items")
     resp = resp.json()
     return render_template('index.html', todolist=resp)
 
 
 @app.route("/add", methods=['POST'])
 def add_entry():
-    requests.post("http://localhost:6000/api/items", json={
+    requests.post(TODO_API_URL+"/api/items", json={
                   "what_to_do": request.form['what_to_do'], "due_date": request.form['due_date']})
     return redirect(url_for('show_list'))
 
@@ -23,14 +25,14 @@ def add_entry():
 @app.route("/delete/<item>")
 def delete_entry(item):
     item = urllib.parse.quote(item)
-    requests.delete("http://localhost:6000/api/items/"+item)
+    requests.delete(TODO_API_URL+"/api/items/"+item)
     return redirect(url_for('show_list'))
 
 
 @app.route("/mark/<item>")
 def mark_as_done(item):
     item = urllib.parse.quote(item)
-    requests.put("http://localhost:6000/api/items/"+item)
+    requests.put(TODO_API_URL+"/api/items/"+item)
     return redirect(url_for('show_list'))
 
 
