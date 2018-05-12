@@ -57,3 +57,6 @@ Files needed for this test are:
 
 #### III. Test creating a frontend that connects to the backend worker Pods by using the DNS name given to the backend Service
 
+https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/
+
+...
