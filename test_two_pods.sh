@@ -12,6 +12,6 @@ kubectl apply -f todoapi-deployment-service.yaml
 # combine deployment and expose serive in one YAML file
 kubectl apply -f todo-deployment-service.yaml
 
-kubectly get pod
+kubectl get pod
 
 kubectl get service
