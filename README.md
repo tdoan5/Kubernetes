@@ -33,6 +33,7 @@ https://console.cloud.google.com/networking/addresses/
 - Dockerfile
 - todolist.py
 - todolist_api.py
+- templates/index.html
 
 2. Deploy web API and web app using `test.sh` script. 
 
