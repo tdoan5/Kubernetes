@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cc5550api
+  labels:
+    app: todoapi
+spec:
+  selector:
+    app: todoapi
+    tier: api
+  ports:
+  - port: 5001
+    targetPort: 5001
+  type: LoadBalancer
+  loadBalancerIP: "35.231.172.37"
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: cc5550api
+  labels:
+    app: todoapi
+spec:
+  template:
+    metadata:
+      labels:
+        app: todoapi
+        tier: api
+    spec:
+      containers:
+      - name: cc5550todoapi
+        image: index.docker.io/tdoan5/cc5550todoapi:v1
+        ports:
+        - containerPort: 5001
+      imagePullSecrets:
+      - name: myregistrykey
