@@ -55,8 +55,8 @@ Files needed for this test are:
 
 4. Run `test_two_pods.sh`
 
-#### III. Test creating a frontend that connects to the backend worker Pods by using the DNS name given to the backend Service
+#### III. Testing Kubernetes model for Connecting Applications with Services
 
 https://kubernetes.io/docs/tasks/access-application-cluster/connecting-frontend-backend/
 
-...
+https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
