@@ -44,6 +44,8 @@ Files needed for this test are:
 - test_two_pods.sh
 - todo-deployment-service.yaml
 - todoapi-deployment-service.yaml
+- tdoan5/cc5550todoapi:v1 (Docker todoapp API image)
+- tdoan5/cc5550todoapp:v1 ((Docker todoapp image)
 
 1. Both Docker web API and web app images are pushed to DockerHub, so I will not include the Docker build and push in the `test_two_pods.sh` script.
 
