@@ -4,8 +4,6 @@
 
 gcloud config set project instant-diorama-198117
 
-#gcloud container clusters create cisc5550-cluster
-
 # combine deployment and expose serive in one YAML file
 kubectl apply -f todoapi-deployment-service.yaml
 
